@@ -18,11 +18,14 @@ def getCustomers(customerName: Union[str, None] = None,
     return IResponseBase(data=customers)
 
 @app.get("/getCustomerByNumber/{customerNumber}", tags=["Customers"], response_model=IResponseBase[CustomersSchemas])
-def getCustomerById(customerNumber: int, db: Session = Depends(get_db)):
+def getCustomerById(customerNumber: int, 
+                    db: Session = Depends(get_db)):
     customer = get_customers_by_id(db,customerNumber)
     return IResponseBase(data=customer)
 
 @app.put("/getCustomerByNumber/{customerNumber}", tags=["Customers"], response_model=IResponseBase[CustomersSchemas])
-def updateCustomer(customerNumber: int, customerData: UpdateCustomerSchemas, db: Session = Depends(get_db)):
+def updateCustomer(customerNumber: int, 
+                   customerData: UpdateCustomerSchemas, 
+                   db: Session = Depends(get_db)):
     customer = update_customers_by_id(db,customerNumber, customerData.model_dump())
     return IResponseBase(data=customer)
