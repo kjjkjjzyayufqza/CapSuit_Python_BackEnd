@@ -36,7 +36,7 @@ class UpdateCustomerSchemas(BaseModel):
     contactFirstName: str
     creditLimit: Optional[Decimal] | None = None
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "contactLastName": "string",
                 "contactFirstName": "string",

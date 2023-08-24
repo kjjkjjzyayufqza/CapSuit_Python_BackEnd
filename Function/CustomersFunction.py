@@ -1,5 +1,6 @@
 from typing import Optional
-from sqlalchemy import and_, or_
+from fastapi import HTTPException
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from Model.Customers import Customers
 from Schemas.Customers import UpdateCustomerSchemas
@@ -8,7 +9,7 @@ def get_customers(db: Session,
                   customerName: str,
                   contactLastName : str,
                   contactFirstName: str, 
-                  isDesc: Optional[bool]):
+                  creditLimitDesc: bool):
     
     query = db.query(Customers)
 
@@ -24,15 +25,25 @@ def get_customers(db: Session,
     if conditions:
         query = query.filter(or_(*conditions))
     
-    if isDesc is not None:
-        query = query.order_by(Customers.creditLimit.desc() if isDesc else Customers.creditLimit.asc())
+    if creditLimitDesc is not None:
+        query = query.order_by(Customers.creditLimit.desc() if creditLimitDesc else Customers.creditLimit.asc())
 
     return query.all()
 
 def get_customers_by_id(db: Session, customerNumber: int):
-    return db.query(Customers).filter(Customers.customerNumber == customerNumber).first()
+    exists = db.query(Customers).filter(Customers.customerNumber == customerNumber).first()
+    
+    if exists is not None:
+        return exists
+    else:
+        raise HTTPException(status_code=404, detail="customerNumber not found")
 
 def update_customers_by_id(db: Session,customerNumber: int, customerData: UpdateCustomerSchemas):
-    db.query(Customers).filter(Customers.customerNumber == customerNumber).update(customerData)
-    db.commit()
-    return db.query(Customers).filter(Customers.customerNumber == customerNumber).first()
+    exists = db.query(Customers).filter(Customers.customerNumber == customerNumber).first()
+    
+    if exists is not None:
+        db.query(Customers).filter(Customers.customerNumber == customerNumber).update(customerData)
+        db.commit()
+        return db.query(Customers).filter(Customers.customerNumber == customerNumber).first()
+    else:
+        raise HTTPException(status_code=404, detail="customerNumber not found")
