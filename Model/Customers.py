@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey, ForeignKeyConstraint, Integer, String,DECIMAL
 from Routers.db import Base
 
+# Define Customers Model, Same with database
 class Customers(Base):
     __tablename__ = "customers"
     customerNumber = Column(Integer, primary_key=True, index=True)

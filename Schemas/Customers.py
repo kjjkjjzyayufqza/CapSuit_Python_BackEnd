@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import BaseModel
 from decimal import Decimal
 
+#Define Schemas to be used for data checking when submitting data
 class CustomersBasicSchemas(BaseModel):
     customerName: str
     contactLastName: str
@@ -36,6 +37,7 @@ class UpdateCustomerSchemas(BaseModel):
     contactFirstName: str
     creditLimit: Optional[Decimal] | None = None
     class Config:
+        # Swagger example data
         json_schema_extra = {
             "example": {
                 "contactLastName": "string",
