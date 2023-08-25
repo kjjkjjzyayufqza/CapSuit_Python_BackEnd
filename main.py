@@ -3,17 +3,26 @@ from fastapi import FastAPI,Depends
 from Function.CustomersFunction import get_customers, get_customers_by_id, update_customers_by_id
 from Routers.db import get_db
 from sqlalchemy.orm import Session
-from Schemas.Customers import CustomersBasicSchemas, CustomersSchemas, UpdateCustomerSchemas
+from Schemas.Customers import CustomersSchemas, UpdateCustomerSchemas
 from Common.ResponseBase import IResponseBase
+from fastapi.middleware.cors import CORSMiddleware
 
 # Init the FastAPI
 app = FastAPI()
 
+# Setting the CORS problem
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define the router
 # The main function of routing is to distinguish api methods
 @app.get("/getCustomers", tags=["Customers"], # Distinguish between various users
-         response_model=IResponseBase[list[CustomersBasicSchemas]], # Define the response format
+         response_model=IResponseBase[list[CustomersSchemas]], # Define the response format
          description="Get all customer from query") # Some Description
 def getCustomers(customerName: Union[str, None] = None, # Optional parameters, Not mandatory
                contactLastName: Union[str, None] = None, 
