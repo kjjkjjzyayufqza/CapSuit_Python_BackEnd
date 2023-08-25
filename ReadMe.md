@@ -20,8 +20,15 @@ docker-compose up --build --force-recreate --renew-anon-volumes db
 ```bash
 uvicorn main:app --reload
 ```
+# Folder structure
+- Common - Storing configurations shared by various FastAPIs
+- Function - Methods for storing various CRUDs
+- Model - Storage database model
+- Routers - Used to create database instances and initialize database connections
+- Schemas - Stored data format checking
+- main.py - Program file
 
-
+# Other 
 - Main Frameworks
 	> FastAPI (Easy to learn)
     
