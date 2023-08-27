@@ -40,6 +40,9 @@ uvicorn main:app --reload
 
     > Program errors are difficult to understand and take a long time to debug
 
+- How to solve
+    > Searching for problems through the google and learning through the search process to find solutions to problems.
+
 - Learned
     > Very small amount of Docker information, because the my first contact the database is Cloud MongoDB, so the first difficulty is **How do I connect to the database**, so my first idea instead of installing MySql first software first, and then the installation process also encountered quite a lot of problems, for example, port occupation.
     
